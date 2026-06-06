@@ -57,13 +57,15 @@ Open the **[keymapper](zero2-keymapper.html)**, enter your IDs, choose Terminal.
 2. Move it to `~/.config/karabiner/assets/complex_modifications/`.
 3. Karabiner-Elements → **Complex Modifications** → **Add rule** → enable the Zero 2 rule.
 
-**One-click import** (once the JSON is hosted at a raw URL)
+**One-click import**
 
 Paste this into your browser's address bar — it can't be a clickable link because Markdown doesn't allow custom URI schemes:
 
 ```
-karabiner://karabiner/assets/complex_modifications/import?url=<RAW_JSON_URL>
+karabiner://karabiner/assets/complex_modifications/import?url=https%3A%2F%2Fraw.githubusercontent.com%2Fr005ter%2Fzero2-keymap%2Fmain%2F8bitdo-zero2.json
 ```
+
+This imports the default layout. Its `vendor_id` / `product_id` are preset for the Zero 2 (they identify the controller *model*, so they're the same for every Zero 2 in keyboard mode), so it works out of the box. If your controller's firmware reports different IDs — check [EventViewer](https://karabiner-elements.pqrs.org) — edit the rule in Karabiner or regenerate a file in the [keymapper](zero2-keymapper.html).
 
 ---
 
@@ -113,7 +115,7 @@ Assign any button to **App-switcher layer (hold)** in the keymapper. While you h
 ## Files
 
 - `zero2-keymapper.html` — interactive config generator (also served by this site)
-- `8bitdo-zero2.json` — example config (default layout, placeholder device IDs)
+- `8bitdo-zero2.json` — example config (default layout, preset Zero 2 device IDs)
 - `zero2-keymap.png` / `zero2-keymap.svg` — keymap image and source
 
 ## License

@@ -72,11 +72,11 @@
         <div class="field row">
           <div>
             <label for="vendor">Vendor ID</label>
-            <input id="vendor" type="text" value="1234" inputmode="numeric">
+            <input id="vendor" type="text" value="11720" inputmode="numeric">
           </div>
           <div>
             <label for="product">Product ID</label>
-            <input id="product" type="text" value="5678" inputmode="numeric">
+            <input id="product" type="text" value="36888" inputmode="numeric">
           </div>
         </div>
         <p class="hint">Find these in Karabiner-EventViewer: press any Zero 2 button and read the <code class="install">vendor_id</code> / <code class="install">product_id</code>. These scope every mapping to the controller so your real keyboard is untouched.</p>
@@ -174,10 +174,14 @@
             <li>Karabiner-Elements → Complex Modifications → Add rule → enable it</li>
             <li>Make sure the Zero 2 is enabled under the Devices tab</li>
           </ol>
-          <p class="hint" style="margin-top:12px">One-click install once hosted (paste your raw URL):</p>
-          <input id="rawUrl" type="text" placeholder="https://gist.githubusercontent.com/.../raw/8bitdo-zero2.json">
-          <code class="codeblock" id="importLink">karabiner://karabiner/assets/complex_modifications/import?url=…</code>
-          <p class="hint">This link can't be a clickable Markdown link (custom URI scheme) — paste it into your browser's address bar.</p>
+          <p class="hint" style="margin-top:12px">One-click import — hosted config URL:</p>
+          <input id="rawUrl" type="text" value="https://raw.githubusercontent.com/r005ter/zero2-keymap/main/8bitdo-zero2.json">
+          <code class="codeblock" id="importLink">karabiner://…</code>
+          <div class="btnrow">
+            <button class="btn" onclick="openImport()">Open in Karabiner</button>
+            <button class="btn ghost" onclick="copyImport()">Copy link</button>
+          </div>
+          <p class="hint">Imports the <b>hosted</b> file at that URL — not the unsaved tweaks above. For a customized layout, use Copy / Download and the manual steps. The hosted file's device IDs are preset for the Zero 2, so the import works out of the box.</p>
         </div>
       </div>
     </div>
@@ -213,7 +217,7 @@ const FUNCS={
 };
 const DEFAULTS={e:'up',f:'down',d:'left',c:'right',i:'cycle_apps',j:'handsfree',h:'cycle_win',g:'launch_term',k:'ptt',m:'enter'};
 
-const state={vendor:'1234',product:'5678',terminal:'Terminal',launchCmd:'',map:Object.assign({},DEFAULTS)};
+const state={vendor:'11720',product:'36888',terminal:'Terminal',launchCmd:'',map:Object.assign({},DEFAULTS)};
 
 function buildMapping(){
   const host=document.getElementById('mapping');
@@ -233,7 +237,7 @@ function buildMapping(){
 }
 
 function intOr(v,d){const n=parseInt(v,10);return Number.isFinite(n)?n:d;}
-function devCond(){return{type:'device_if',identifiers:[{vendor_id:intOr(state.vendor,1234),product_id:intOr(state.product,5678)}]};}
+function devCond(){return{type:'device_if',identifiers:[{vendor_id:intOr(state.vendor,11720),product_id:intOr(state.product,36888)}]};}
 
 function launchShell(){
   const app=state.terminal;const cmd=state.launchCmd.trim();
@@ -322,6 +326,10 @@ function downloadJSON(){
     const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='8bitdo-zero2.json';
     document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);flash('Downloaded 8bitdo-zero2.json');}
   catch(e){flash('Download blocked — copy instead');}}
+function openImport(){const l=document.getElementById('importLink').textContent;
+  if(l.indexOf('http')>-1){window.location.href=l;flash('Opening Karabiner…');}else{flash('Enter a hosted URL first');}}
+function copyImport(){const l=document.getElementById('importLink').textContent;
+  try{navigator.clipboard.writeText(l).then(()=>flash('Import link copied')).catch(()=>flash('Copy failed'));}catch(e){flash('Copy failed');}}
 
 document.getElementById('vendor').addEventListener('input',e=>{state.vendor=e.target.value;render();});
 document.getElementById('product').addEventListener('input',e=>{state.product=e.target.value;render();});

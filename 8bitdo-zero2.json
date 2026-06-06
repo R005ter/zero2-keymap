@@ -8,31 +8,31 @@
           "type": "basic",
           "from": { "key_code": "e" },
           "to": [{ "key_code": "up_arrow" }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "f" },
           "to": [{ "key_code": "down_arrow" }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "d" },
           "to": [{ "key_code": "left_arrow" }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "c" },
           "to": [{ "key_code": "right_arrow" }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "m" },
           "to": [{ "key_code": "return_or_enter" }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         }
       ]
     },
@@ -43,13 +43,13 @@
           "type": "basic",
           "from": { "key_code": "k" },
           "to": [{ "key_code": "left_control", "modifiers": ["left_option"] }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "j" },
           "to": [{ "key_code": "spacebar", "modifiers": ["fn"] }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         }
       ]
     },
@@ -60,19 +60,19 @@
           "type": "basic",
           "from": { "key_code": "g" },
           "to": [{ "shell_command": "open -a Terminal" }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "h" },
           "to": [{ "key_code": "grave_accent_and_tilde", "modifiers": ["left_command"] }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "i" },
           "to": [{ "key_code": "tab", "modifiers": ["left_command"] }],
-          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 1234, "product_id": 5678 }] }]
+          "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         }
       ]
     }
