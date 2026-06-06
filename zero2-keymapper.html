@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8BitDo Zero 2 → Karabiner keymapper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f1ea; --card:#fffdf8; --ink:#20201c; --muted:#6b6960;
+    --line:#ddd8cc; --accent:#138a72; --accent-ink:#0c5f4f; --coral:#c75a36;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    --sans:'Sora',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:34px 22px 60px}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:26px}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-ink)}
+  h1{font-size:26px;font-weight:600;margin:8px 0 6px;letter-spacing:-.01em}
+  header p{margin:0;color:var(--muted);font-size:15px;max-width:60ch}
+  .grid{display:grid;grid-template-columns:1fr;gap:24px}
+  @media(min-width:900px){.grid{grid-template-columns:1fr 392px;align-items:start}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 20px 22px}
+  .card + .card{margin-top:20px}
+  .panel{position:sticky;top:20px}
+  h2{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 14px;font-weight:500}
+  label{display:block;font-size:13px;font-weight:500;margin:0 0 5px}
+  .hint{font-size:12px;color:var(--muted);margin:3px 0 0}
+  input[type=text],select{width:100%;font-family:var(--mono);font-size:13px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+  input:focus,select:focus{outline:none;border-color:var(--accent)}
+  .row{display:flex;gap:12px}
+  .row > div{flex:1}
+  .seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+  .seg button{flex:1;border:0;background:transparent;font-family:var(--mono);font-size:12px;padding:9px 6px;cursor:pointer;color:var(--muted)}
+  .seg button.on{background:var(--accent);color:#fff}
+  .field{margin-bottom:16px}
+  .map-group{margin-bottom:18px}
+  .map-group h3{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:400;border-top:1px dashed var(--line);padding-top:12px}
+  .map-row{display:grid;grid-template-columns:128px 1fr;gap:12px;align-items:center;margin-bottom:8px}
+  .map-row .btnlbl{font-family:var(--mono);font-size:12px;color:var(--ink)}
+  .map-row .btnlbl b{color:var(--accent-ink)}
+  svg{width:100%;height:auto;display:block}
+  .warn{font-size:12px;color:var(--coral);font-family:var(--mono);margin:10px 0 0;min-height:16px}
+  textarea{width:100%;height:260px;font-family:var(--mono);font-size:11.5px;line-height:1.45;border:1px solid var(--line);border-radius:8px;padding:12px;background:#fbfaf5;color:var(--ink);resize:vertical;white-space:pre}
+  .btnrow{display:flex;gap:10px;margin-top:12px}
+  .btn{flex:1;font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:11px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--accent-ink)}
+  .btn:active{transform:translateY(1px)}
+  .install{margin-top:18px}
+  .install code,.codeblock{font-family:var(--mono);font-size:11.5px;background:#efece3;border:1px solid var(--line);border-radius:6px;padding:2px 5px;color:var(--accent-ink);word-break:break-all}
+  .codeblock{display:block;padding:10px 12px;margin:8px 0;white-space:pre-wrap}
+  ol{margin:8px 0 0;padding-left:20px;font-size:13px;color:var(--muted)}
+  ol li{margin-bottom:6px}
+  .flash{font-family:var(--mono);font-size:11px;color:var(--accent);height:14px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">8BitDo Zero 2 · Keyboard mode</div>
+    <h1>Karabiner keymapper</h1>
+    <p>Build a Karabiner-Elements config that turns the Zero 2 into a one-handed controller for Wispr Flow dictation and Claude Code. Set your device, pick a terminal, remap any button — the JSON updates live.</p>
+  </header>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>Device &amp; terminal</h2>
+        <div class="field row">
+          <div>
+            <label for="vendor">Vendor ID</label>
+            <input id="vendor" type="text" value="1234" inputmode="numeric">
+          </div>
+          <div>
+            <label for="product">Product ID</label>
+            <input id="product" type="text" value="5678" inputmode="numeric">
+          </div>
+        </div>
+        <p class="hint">Find these in Karabiner-EventViewer: press any Zero 2 button and read the <code class="install">vendor_id</code> / <code class="install">product_id</code>. These scope every mapping to the controller so your real keyboard is untouched.</p>
+
+        <div class="field" style="margin-top:16px">
+          <label>Terminal app</label>
+          <div class="seg" id="termSeg">
+            <button data-term="Terminal" class="on">Terminal.app</button>
+            <button data-term="iTerm">iTerm2</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="launchCmd">Run on launch <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+          <input id="launchCmd" type="text" placeholder='e.g. cd ~/projects/primary && claude'>
+          <p class="hint">Leave empty to just open/focus the terminal. Fill it to open a fresh window and run a command (avoid single quotes in the command).</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Button mapping</h2>
+        <div id="mapping"></div>
+        <div class="warn" id="warn"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="card">
+        <h2>Live keymap</h2>
+        <svg viewBox="0 0 380 470" role="img" aria-label="Zero 2 keymap">
+          <rect x="24" y="20" width="300" height="430" rx="54" fill="#fffdf8" stroke="#ddd8cc" stroke-width="1.5"/>
+          <!-- D-pad -->
+          <g>
+            <circle cx="112" cy="92"  r="21" fill="#e0eef0" stroke="#3a93a6" stroke-width="1.2"/>
+            <circle cx="112" cy="162" r="21" fill="#e0eef0" stroke="#3a93a6" stroke-width="1.2"/>
+            <circle cx="77"  cy="127" r="21" fill="#e0eef0" stroke="#3a93a6" stroke-width="1.2"/>
+            <circle cx="147" cy="127" r="21" fill="#e0eef0" stroke="#3a93a6" stroke-width="1.2"/>
+          </g>
+          <!-- select/start -->
+          <circle cx="190" cy="212" r="13" fill="#ece9e0" stroke="#c9c4b8" stroke-width="1"/>
+          <circle cx="236" cy="212" r="13" fill="#ece9e0" stroke="#c9c4b8" stroke-width="1"/>
+          <text x="213" y="246" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#9a9588">select · start</text>
+          <!-- Face -->
+          <g>
+            <circle cx="214" cy="265" r="27" fill="#e1efe7" stroke="#2f9e79" stroke-width="1.2"/>
+            <circle cx="160" cy="310" r="27" fill="#e1efe7" stroke="#2f9e79" stroke-width="1.2"/>
+            <circle cx="268" cy="310" r="27" fill="#e1efe7" stroke="#2f9e79" stroke-width="1.2"/>
+            <circle cx="214" cy="355" r="27" fill="#e1efe7" stroke="#2f9e79" stroke-width="1.2"/>
+          </g>
+          <!-- Side -->
+          <rect x="296" y="96"  width="72" height="46" rx="12" fill="#f7ddd1" stroke="#d2693f" stroke-width="1.2"/>
+          <rect x="296" y="300" width="72" height="46" rx="12" fill="#f7ddd1" stroke="#d2693f" stroke-width="1.2"/>
+
+          <!-- key letters + dynamic labels -->
+          <g font-family="JetBrains Mono,monospace" text-anchor="middle">
+            <text x="112" y="86"  font-size="8.5" fill="#9a9588">e</text>
+            <text x="112" y="98"  font-size="11" fill="#16545f" id="t-e">↑</text>
+            <text x="112" y="156" font-size="8.5" fill="#9a9588">f</text>
+            <text x="112" y="168" font-size="11" fill="#16545f" id="t-f">↓</text>
+            <text x="77"  y="121" font-size="8.5" fill="#9a9588">d</text>
+            <text x="77"  y="133" font-size="11" fill="#16545f" id="t-d">←</text>
+            <text x="147" y="121" font-size="8.5" fill="#9a9588">c</text>
+            <text x="147" y="133" font-size="11" fill="#16545f" id="t-c">→</text>
+
+            <text x="214" y="259" font-size="8.5" fill="#9a9588">i</text>
+            <text x="214" y="271" font-size="11" fill="#114a39" id="t-i">Apps</text>
+            <text x="160" y="304" font-size="8.5" fill="#9a9588">j</text>
+            <text x="160" y="316" font-size="11" fill="#114a39" id="t-j">Hands</text>
+            <text x="268" y="304" font-size="8.5" fill="#9a9588">h</text>
+            <text x="268" y="316" font-size="11" fill="#114a39" id="t-h">Win</text>
+            <text x="214" y="349" font-size="8.5" fill="#9a9588">g</text>
+            <text x="214" y="361" font-size="11" fill="#114a39" id="t-g">Term</text>
+
+            <text x="332" y="113" font-size="8.5" fill="#9a9588">k · index</text>
+            <text x="332" y="127" font-size="11" fill="#7d3417" id="t-k">Talk</text>
+            <text x="332" y="317" font-size="8.5" fill="#9a9588">m · ring</text>
+            <text x="332" y="331" font-size="11" fill="#7d3417" id="t-m">Enter</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="card">
+        <h2>Generated config</h2>
+        <textarea id="json" readonly spellcheck="false"></textarea>
+        <div class="btnrow">
+          <button class="btn" onclick="copyJSON()">Copy</button>
+          <button class="btn ghost" onclick="downloadJSON()">Download .json</button>
+        </div>
+        <div class="flash" id="flash"></div>
+
+        <div class="install">
+          <h2 style="margin-top:6px">Install</h2>
+          <ol>
+            <li>Save the file to <code class="install">~/.config/karabiner/assets/complex_modifications/</code></li>
+            <li>Karabiner-Elements → Complex Modifications → Add rule → enable it</li>
+            <li>Make sure the Zero 2 is enabled under the Devices tab</li>
+          </ol>
+          <p class="hint" style="margin-top:12px">One-click install once hosted (paste your raw URL):</p>
+          <input id="rawUrl" type="text" placeholder="https://gist.githubusercontent.com/.../raw/8bitdo-zero2.json">
+          <code class="codeblock" id="importLink">karabiner://karabiner/assets/complex_modifications/import?url=…</code>
+          <p class="hint">This link can't be a clickable Markdown link (custom URI scheme) — paste it into your browser's address bar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BUTTONS=[
+  {id:'e',group:'D-pad',pos:'Up'},
+  {id:'f',group:'D-pad',pos:'Down'},
+  {id:'d',group:'D-pad',pos:'Left'},
+  {id:'c',group:'D-pad',pos:'Right'},
+  {id:'i',group:'Face',pos:'Top'},
+  {id:'j',group:'Face',pos:'Left'},
+  {id:'h',group:'Face',pos:'Right'},
+  {id:'g',group:'Face',pos:'Bottom'},
+  {id:'k',group:'Side',pos:'Upper · index'},
+  {id:'m',group:'Side',pos:'Lower · ring'}
+];
+const FUNCS={
+  none:{label:'— none —',tag:'—'},
+  up:{label:'Arrow: Up',tag:'↑'},
+  down:{label:'Arrow: Down',tag:'↓'},
+  left:{label:'Arrow: Left',tag:'←'},
+  right:{label:'Arrow: Right',tag:'→'},
+  enter:{label:'Enter / Return',tag:'Enter'},
+  ptt:{label:'Wispr: Push-to-talk (hold)',tag:'Talk'},
+  handsfree:{label:'Wispr: Hands-free (toggle)',tag:'Hands'},
+  launch_term:{label:'Launch / focus terminal',tag:'Term'},
+  cycle_win:{label:'Cycle terminal windows',tag:'Win'},
+  cycle_apps:{label:'Cycle apps (Cmd+Tab)',tag:'Apps'},
+  app_layer:{label:'App-switcher layer (hold)',tag:'Apps\u25B8'}
+};
+const DEFAULTS={e:'up',f:'down',d:'left',c:'right',i:'cycle_apps',j:'handsfree',h:'cycle_win',g:'launch_term',k:'ptt',m:'enter'};
+
+const state={vendor:'1234',product:'5678',terminal:'Terminal',launchCmd:'',map:Object.assign({},DEFAULTS)};
+
+function buildMapping(){
+  const host=document.getElementById('mapping');
+  let html='';let cur=null;
+  for(const b of BUTTONS){
+    if(b.group!==cur){if(cur)html+='</div>';html+='<div class="map-group"><h3>'+b.group+'</h3>';cur=b.group;}
+    let opts='';
+    for(const k in FUNCS){opts+='<option value="'+k+'"'+(state.map[b.id]===k?' selected':'')+'>'+FUNCS[k].label+'</option>';}
+    html+='<div class="map-row"><div class="btnlbl">'+b.pos+' <b>('+b.id+')</b></div>'+
+          '<select data-btn="'+b.id+'">'+opts+'</select></div>';
+  }
+  html+='</div>';
+  host.innerHTML=html;
+  host.querySelectorAll('select').forEach(s=>s.addEventListener('change',e=>{
+    state.map[e.target.dataset.btn]=e.target.value;render();
+  }));
+}
+
+function intOr(v,d){const n=parseInt(v,10);return Number.isFinite(n)?n:d;}
+function devCond(){return{type:'device_if',identifiers:[{vendor_id:intOr(state.vendor,1234),product_id:intOr(state.product,5678)}]};}
+
+function launchShell(){
+  const app=state.terminal;const cmd=state.launchCmd.trim();
+  if(!cmd)return'open -a "'+app+'"';
+  const safe=cmd.replace(/"/g,'\\"');
+  if(app==='iTerm'){
+    return"osascript -e 'tell application \"iTerm\" to create window with default profile' -e 'tell application \"iTerm\" to tell current session of current window to write text \""+safe+"\"'";
+  }
+  return"osascript -e 'tell application \"Terminal\" to do script \""+safe+"\"' -e 'tell application \"Terminal\" to activate'";
+}
+
+function toEvents(fn){
+  switch(fn){
+    case'up':return[{key_code:'up_arrow'}];
+    case'down':return[{key_code:'down_arrow'}];
+    case'left':return[{key_code:'left_arrow'}];
+    case'right':return[{key_code:'right_arrow'}];
+    case'enter':return[{key_code:'return_or_enter'}];
+    case'ptt':return[{key_code:'left_control',modifiers:['left_option']}];
+    case'handsfree':return[{key_code:'spacebar',modifiers:['fn']}];
+    case'cycle_win':return[{key_code:'grave_accent_and_tilde',modifiers:['left_command']}];
+    case'cycle_apps':return[{key_code:'tab',modifiers:['left_command']}];
+    case'launch_term':return[{shell_command:launchShell()}];
+    default:return null;
+  }
+}
+
+function buildConfig(){
+  const dev=devCond();const manips=[];
+  const layerKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='app_layer');
+  if(layerKey){
+    const rightKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='right');
+    const leftKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='left');
+    if(rightKey)manips.push({type:'basic',from:{key_code:rightKey},to:[{key_code:'tab'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    if(leftKey)manips.push({type:'basic',from:{key_code:leftKey},to:[{key_code:'tab',modifiers:['left_shift']}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+  }
+  for(const b of BUTTONS){
+    const fn=state.map[b.id];
+    if(!fn||fn==='none')continue;
+    if(fn==='app_layer'){
+      manips.push({type:'basic',from:{key_code:b.id},
+        to:[{set_variable:{name:'zero2_app_switcher',value:1}},{key_code:'left_command',lazy:true}],
+        to_after_key_up:[{set_variable:{name:'zero2_app_switcher',value:0}}],
+        conditions:[dev]});
+      continue;
+    }
+    const ev=toEvents(fn);
+    if(ev)manips.push({type:'basic',from:{key_code:b.id},to:ev,conditions:[dev]});
+  }
+  return{title:'8BitDo Zero 2 \u2014 '+state.terminal+' \u2014 Wispr Flow + Claude Code',
+    rules:[{description:'8BitDo Zero 2 keymap ('+state.terminal+')',manipulators:manips}]};
+}
+
+function updateDiagram(){
+  for(const b of BUTTONS){
+    const el=document.getElementById('t-'+b.id);
+    if(el)el.textContent=FUNCS[state.map[b.id]].tag;
+  }
+}
+function updateWarn(){
+  const counts={};
+  for(const b of BUTTONS){const f=state.map[b.id];if(f==='none')continue;counts[f]=(counts[f]||0)+1;}
+  const dupes=Object.keys(counts).filter(f=>counts[f]>1&&f!=='app_layer').map(f=>FUNCS[f].tag);
+  const layers=BUTTONS.filter(b=>state.map[b.id]==='app_layer').length;
+  let msg='';
+  if(dupes.length)msg='Assigned more than once: '+dupes.join(', ');
+  if(layers>1)msg=(msg?msg+' · ':'')+'Only one app-switcher layer is supported';
+  document.getElementById('warn').textContent=msg;
+}
+function updateImport(){
+  const raw=document.getElementById('rawUrl').value.trim();
+  const link='karabiner://karabiner/assets/complex_modifications/import?url='+(raw?encodeURIComponent(raw):'\u2026');
+  document.getElementById('importLink').textContent=link;
+}
+function render(){
+  document.getElementById('json').value=JSON.stringify(buildConfig(),null,2);
+  updateDiagram();updateWarn();updateImport();
+}
+
+function flash(t){const f=document.getElementById('flash');f.textContent=t;setTimeout(()=>{if(f.textContent===t)f.textContent='';},1600);}
+function copyJSON(){const t=document.getElementById('json');t.focus();t.select();
+  try{navigator.clipboard.writeText(t.value).then(()=>flash('Copied to clipboard')).catch(()=>{document.execCommand('copy');flash('Copied');});}
+  catch(e){document.execCommand('copy');flash('Copied');}}
+function downloadJSON(){
+  try{const blob=new Blob([document.getElementById('json').value],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='8bitdo-zero2.json';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);flash('Downloaded 8bitdo-zero2.json');}
+  catch(e){flash('Download blocked — copy instead');}}
+
+document.getElementById('vendor').addEventListener('input',e=>{state.vendor=e.target.value;render();});
+document.getElementById('product').addEventListener('input',e=>{state.product=e.target.value;render();});
+document.getElementById('launchCmd').addEventListener('input',e=>{state.launchCmd=e.target.value;render();});
+document.getElementById('rawUrl').addEventListener('input',updateImport);
+document.getElementById('termSeg').querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{
+  state.terminal=btn.dataset.term;
+  document.getElementById('termSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b===btn));
+  render();
+}));
+
+buildMapping();render();
+</script>
+</body>
+</html>
