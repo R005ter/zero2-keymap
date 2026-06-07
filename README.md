@@ -16,7 +16,7 @@ It works by running the Zero 2 in its **keyboard mode**, where each button sends
 - **Tap to submit** — Enter on the ring-finger trigger, so dictate-then-send never leaves your trigger fingers
 - **Arrow keys** on the D-pad for navigating Claude Code and menus
 - **Launch / focus your terminal**, **cycle terminal windows**, and **cycle apps** on the face buttons
-- An optional **app-switcher layer** for stepping through every open app
+- An **app-switcher layer** on the same ring-finger trigger — hold it and the D-pad steps through every open app
 
 ## You'll need
 
@@ -74,14 +74,14 @@ This imports the default layout. Its `vendor_id` / `product_id` are preset for t
 | Button | Key it sends | Function |
 | --- | --- | --- |
 | D-pad up / down / left / right | `e` `f` `d` `c` | Arrow keys |
-| `m` — lower side (ring) | `m` | **Enter** |
+| `m` — lower side (ring) | `m` | **Enter** (tap) · **app-switcher layer** (hold) |
 | `k` — upper side (index) | `k` | **Push-to-talk** (Ctrl + Opt, held) |
 | `j` — left face | `j` | **Hands-free** toggle (Fn + Space) |
 | `g` — bottom face | `g` | Launch / focus terminal |
 | `h` — right face | `h` | Cycle terminal windows (⌘ + `` ` ``) |
 | `i` — top face | `i` | Cycle apps (⌘ + Tab) |
 
-The two side buttons sit under your index and ring fingers, so the core loop — **hold `k` to dictate, tap `m` to send** — happens entirely on your triggers while your thumb stays on the D-pad.
+The two side buttons sit under your index and ring fingers, so the core loop — **hold `k` to dictate, tap `m` to send** — happens entirely on your triggers while your thumb stays on the D-pad. And because the triggers are fingers, not thumb, **holding `m` while working the D-pad** is the one comfortable two-button chord — which is exactly where the app-switcher layer lives.
 
 ## Wispr Flow shortcuts
 
@@ -92,9 +92,17 @@ Set these in Wispr Flow → Settings → General → Shortcuts so they match the
 
 If Fn behaves oddly (macOS treats it specially), rebind hands-free to something plain like `⌘⇧Space` in Wispr and update the `j` mapping to match.
 
-## App-switcher layer (optional)
+## App-switcher layer
 
-Assign any button to **App-switcher layer (hold)** in the keymapper. While you hold it, Command stays down and your D-pad **left/right** become Shift+Tab / Tab, so you can step through every open app and release to select — real cycling, not just the two-app toggle a single ⌘Tab gives you. It's implemented with a Karabiner variable that flips while the button is held.
+**Hold `m`** (instead of tapping it for Enter) and Command is held for you — lazily, so nothing fires until you press something else. While holding, D-pad **left/right** become Shift+Tab / Tab: the ⌘Tab switcher comes up, *stays* up, and you step through every open app. **Release `m` to land on the selected one** — real cycling, not the two-app toggle a single ⌘Tab tap gives you. (Up/down still send arrows, so ↓ opens Exposé on the highlighted app, just like on a keyboard.)
+
+Why it's on `m`: the switcher only stays open while ⌘ is physically held — macOS commits the moment it's released, so a tap-to-latch version isn't possible. The hold has to live on a button your fingers can keep down *while* your thumb works the D-pad, and that's the ring-finger trigger.
+
+Details:
+
+- A quick tap of `m` is still plain **Enter** — the layer only engages while held (Karabiner's `to_if_alone`).
+- Holding `m` for over a second without touching the D-pad does nothing — no stray Enter on release.
+- In the keymapper you can move the layer to any button, with (**Enter (tap) / app switcher (hold)**) or without (**App-switcher layer (hold)**) the Enter tap.
 
 ---
 
@@ -108,7 +116,8 @@ Assign any button to **App-switcher layer (hold)** in the keymapper. While you h
 
 ## Caveats
 
-- A single ⌘Tab tap only toggles the two most-recent apps — use the app-switcher layer for true cycling.
+- A single ⌘Tab tap (`i`) only toggles the two most-recent apps — hold `m` and use the D-pad for true cycling.
+- Holding `m` no longer key-repeats Enter (the hold is the app-switcher layer now).
 - The Zero 2 has ~8 usable inputs, so budget buttons carefully.
 - The micro-USB port is for charging and firmware only; pairing is Bluetooth.
 

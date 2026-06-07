@@ -51,11 +51,11 @@ macOS pops the Keyboard Setup Assistant on pair; dismiss it (it's a real keyboar
 |-----|----------|
 | e/f/d/c | arrows up/down/left/right |
 | k (index, hold) | Ctrl+Opt → Wispr push-to-talk |
-| m (ring) | Return |
+| m (ring) | tap = Return · hold = app-switcher layer (Cmd held, D-pad ⇄ apps) |
 | j | Fn+Space → Wispr hands-free toggle |
 | g | `open -a Terminal` |
 | h | Cmd+\` → cycle terminal windows |
-| i | Cmd+Tab → cycle apps |
+| i | Cmd+Tab → cycle apps (two-app toggle; true cycling = hold m) |
 
 Wispr Flow shortcuts must match: push-to-talk = **Ctrl+Opt**, hands-free = **Fn+Space**.
 
@@ -66,16 +66,25 @@ Wispr Flow shortcuts must match: push-to-talk = **Ctrl+Opt**, hands-free = **Fn+
 - `buildConfig()` emits one Karabiner rule. `toEvents(fn)` maps a function id → `to` events.
   `launchShell()` builds the terminal-launch command (`open -a`, or an osascript do-script /
   iTerm variant when `launchCmd` is set).
-- **App-switcher layer**: assigning a button to `app_layer` holds Cmd lazily + sets variable
-  `zero2_app_switcher`; the D-pad left/right buttons get variable-gated Shift+Tab/Tab manipulators
-  emitted BEFORE the normal arrow ones (Karabiner = first-match-wins).
+- **App-switcher layer**: two layer functions — `app_layer` (hold only) and `enter_app_layer`
+  (default on m; adds `to_if_alone` = Return, so tap = Enter, hold = layer). Both hold Cmd lazily +
+  set variable `zero2_app_switcher`; the D-pad left/right buttons get variable-gated Shift+Tab/Tab
+  manipulators emitted BEFORE the normal arrow ones (Karabiner = first-match-wins). A tap-to-latch
+  switcher is impossible: macOS commits the instant Cmd releases, so the layer must sit on a
+  finger-held button (m/ring) while the thumb works the D-pad.
+- **Every `from` carries `modifiers:{optional:['any']}`** (`fromKey()`): Karabiner counts its own
+  rule-held output modifiers (lazy Cmd, PTT's Ctrl+Opt) toward from-matching, and a `from` without
+  `modifiers` only matches when none are active — omitting it breaks every button mid-layer/mid-PTT.
 - Live SVG diagram updates label text nodes by id `t-<buttonid>`.
 - `openImport()` navigates to the `karabiner://` link; `copyImport()` copies it.
 
 ## Conventions / constraints
 - Keep everything **dependency-free and self-contained** — it has to run from static GitHub Pages.
 - README embeds **PNG**, not SVG (GitHub renders SVG inconsistently). Regenerate the PNG from the SVG:
-  `pip install cairosvg --break-system-packages && python3 -c "import cairosvg;cairosvg.svg2png(url='zero2-keymap.svg',write_to='zero2-keymap.png',output_width=960,output_height=1120)"`
+  `/opt/homebrew/bin/python3.13 -c "import cairosvg;cairosvg.svg2png(url='zero2-keymap.svg',write_to='zero2-keymap.png',output_width=960,output_height=1120)"`
+  (must be **homebrew** python — system python can't load homebrew's libcairo under SIP). The SVG
+  font stacks list **Menlo/Verdana first**: cairosvg doesn't fall through a missing first family,
+  and DejaVu isn't installed on this machine — DejaVu-first renders tofu for ↑↓←→▸.
 - The import-link URL param is **percent-encoded**.
 - License: MIT (stated in README; no `LICENSE` file yet).
 

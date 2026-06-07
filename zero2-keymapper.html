@@ -213,9 +213,11 @@ const FUNCS={
   launch_term:{label:'Launch / focus terminal',tag:'Term'},
   cycle_win:{label:'Cycle terminal windows',tag:'Win'},
   cycle_apps:{label:'Cycle apps (Cmd+Tab)',tag:'Apps'},
-  app_layer:{label:'App-switcher layer (hold)',tag:'Apps\u25B8'}
+  app_layer:{label:'App-switcher layer (hold)',tag:'Apps\u25B8'},
+  enter_app_layer:{label:'Enter (tap) / app switcher (hold)',tag:'Enter\u00B7Apps'}
 };
-const DEFAULTS={e:'up',f:'down',d:'left',c:'right',i:'cycle_apps',j:'handsfree',h:'cycle_win',g:'launch_term',k:'ptt',m:'enter'};
+const LAYER_FNS=['app_layer','enter_app_layer'];
+const DEFAULTS={e:'up',f:'down',d:'left',c:'right',i:'cycle_apps',j:'handsfree',h:'cycle_win',g:'launch_term',k:'ptt',m:'enter_app_layer'};
 
 const state={vendor:'11720',product:'36888',terminal:'Terminal',launchCmd:'',map:Object.assign({},DEFAULTS)};
 
@@ -238,6 +240,9 @@ function buildMapping(){
 
 function intOr(v,d){const n=parseInt(v,10);return Number.isFinite(n)?n:d;}
 function devCond(){return{type:'device_if',identifiers:[{vendor_id:intOr(state.vendor,11720),product_id:intOr(state.product,36888)}]};}
+// optional:any — without it Karabiner only matches when NO modifiers are active,
+// which breaks every button while a rule-held modifier (lazy Cmd layer, Ctrl+Opt PTT) is down.
+function fromKey(k){return{key_code:k,modifiers:{optional:['any']}};}
 
 function launchShell(){
   const app=state.terminal;const cmd=state.launchCmd.trim();
@@ -267,25 +272,27 @@ function toEvents(fn){
 
 function buildConfig(){
   const dev=devCond();const manips=[];
-  const layerKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='app_layer');
+  const layerKey=BUTTONS.map(b=>b.id).find(id=>LAYER_FNS.includes(state.map[id]));
   if(layerKey){
     const rightKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='right');
     const leftKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='left');
-    if(rightKey)manips.push({type:'basic',from:{key_code:rightKey},to:[{key_code:'tab'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
-    if(leftKey)manips.push({type:'basic',from:{key_code:leftKey},to:[{key_code:'tab',modifiers:['left_shift']}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    if(rightKey)manips.push({type:'basic',from:fromKey(rightKey),to:[{key_code:'tab'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    if(leftKey)manips.push({type:'basic',from:fromKey(leftKey),to:[{key_code:'tab',modifiers:['left_shift']}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
   }
   for(const b of BUTTONS){
     const fn=state.map[b.id];
     if(!fn||fn==='none')continue;
-    if(fn==='app_layer'){
-      manips.push({type:'basic',from:{key_code:b.id},
+    if(LAYER_FNS.includes(fn)){
+      const manip={type:'basic',from:fromKey(b.id),
         to:[{set_variable:{name:'zero2_app_switcher',value:1}},{key_code:'left_command',lazy:true}],
         to_after_key_up:[{set_variable:{name:'zero2_app_switcher',value:0}}],
-        conditions:[dev]});
+        conditions:[dev]};
+      if(fn==='enter_app_layer')manip.to_if_alone=[{key_code:'return_or_enter'}];
+      manips.push(manip);
       continue;
     }
     const ev=toEvents(fn);
-    if(ev)manips.push({type:'basic',from:{key_code:b.id},to:ev,conditions:[dev]});
+    if(ev)manips.push({type:'basic',from:fromKey(b.id),to:ev,conditions:[dev]});
   }
   return{title:'8BitDo Zero 2 \u2014 '+state.terminal+' \u2014 Wispr Flow + Claude Code',
     rules:[{description:'8BitDo Zero 2 keymap ('+state.terminal+')',manipulators:manips}]};
@@ -300,8 +307,8 @@ function updateDiagram(){
 function updateWarn(){
   const counts={};
   for(const b of BUTTONS){const f=state.map[b.id];if(f==='none')continue;counts[f]=(counts[f]||0)+1;}
-  const dupes=Object.keys(counts).filter(f=>counts[f]>1&&f!=='app_layer').map(f=>FUNCS[f].tag);
-  const layers=BUTTONS.filter(b=>state.map[b.id]==='app_layer').length;
+  const dupes=Object.keys(counts).filter(f=>counts[f]>1&&!LAYER_FNS.includes(f)).map(f=>FUNCS[f].tag);
+  const layers=BUTTONS.filter(b=>LAYER_FNS.includes(state.map[b.id])).length;
   let msg='';
   if(dupes.length)msg='Assigned more than once: '+dupes.join(', ');
   if(layers>1)msg=(msg?msg+' · ':'')+'Only one app-switcher layer is supported';
