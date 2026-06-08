@@ -60,18 +60,18 @@
       ]
     },
     {
-      "description": "Zero 2 — Wispr Flow (k = push-to-talk Ctrl+Opt, j = hands-free Fn+Space)",
+      "description": "Zero 2 — Wispr Flow (k = hands-free Fn+Space, j = push-to-talk Ctrl+Opt)",
       "manipulators": [
         {
           "type": "basic",
           "from": { "key_code": "k", "modifiers": { "optional": ["any"] } },
-          "to": [{ "key_code": "left_control", "modifiers": ["left_option"] }],
+          "to": [{ "key_code": "spacebar", "modifiers": ["fn"] }],
           "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {
           "type": "basic",
           "from": { "key_code": "j", "modifiers": { "optional": ["any"] } },
-          "to": [{ "key_code": "spacebar", "modifiers": ["fn"] }],
+          "to": [{ "key_code": "left_control", "modifiers": ["left_option"] }],
           "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         }
       ]

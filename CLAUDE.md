@@ -51,9 +51,9 @@ macOS pops the Keyboard Setup Assistant on pair; dismiss it (it's a real keyboar
 | key | function |
 |-----|----------|
 | e/f/d/c | arrows up/down/left/right |
-| k (index, hold) | Ctrl+Opt → Wispr push-to-talk |
+| k (index, tap) | Fn+Space → Wispr hands-free toggle |
 | m (ring) | tap = Return · hold = app-switcher layer (Cmd held, D-pad ⇄ apps) |
-| j | Fn+Space → Wispr hands-free toggle |
+| j (left face, hold) | Ctrl+Opt → Wispr push-to-talk |
 | g | `open -a Terminal` |
 | h | Cmd+\` → cycle terminal windows |
 | i | Cmd+Tab → cycle apps (two-app toggle; true cycling = hold m) |

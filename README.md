@@ -12,7 +12,7 @@ It works by running the Zero 2 in its **keyboard mode**, where each button sends
 
 ## What you get
 
-- **Hold to dictate** — push-to-talk into Wispr Flow on the index-finger trigger
+- **Dictate two ways** — tap the index-finger trigger for hands-free Wispr Flow (talk while you keep navigating), or hold the left face button for push-to-talk bursts
 - **Tap to submit** — Enter on the ring-finger trigger, so dictate-then-send never leaves your trigger fingers
 - **Arrow keys** on the D-pad for navigating Claude Code and menus
 - **Launch / focus your terminal**, **cycle terminal windows**, and **cycle apps** on the face buttons
@@ -75,22 +75,22 @@ This imports the default layout. Its `vendor_id` / `product_id` are preset for t
 | --- | --- | --- |
 | D-pad up / down / left / right | `e` `f` `d` `c` | Arrow keys |
 | `m` — lower side (ring) | `m` | **Enter** (tap) · **app-switcher layer** (hold) |
-| `k` — upper side (index) | `k` | **Push-to-talk** (Ctrl + Opt, held) |
-| `j` — left face | `j` | **Hands-free** toggle (Fn + Space) |
+| `k` — upper side (index) | `k` | **Hands-free** toggle (Fn + Space) |
+| `j` — left face | `j` | **Push-to-talk** (Ctrl + Opt, held) |
 | `g` — bottom face | `g` | Launch / focus terminal |
 | `h` — right face | `h` | Cycle terminal windows (⌘ + `` ` ``) |
 | `i` — top face | `i` | Cycle apps (⌘ + Tab) |
 
-The two side buttons sit under your index and ring fingers, so the core loop — **hold `k` to dictate, tap `m` to send** — happens entirely on your triggers while your thumb stays on the D-pad. And because the triggers are fingers, not thumb, **holding `m` while working the D-pad** is the one comfortable two-button chord — which is exactly where the app-switcher layer lives.
+Tap `k` (index trigger) to toggle hands-free Wispr Flow and talk while your thumb keeps steering the D-pad; or hold `j` for a quick push-to-talk burst. Tap `m` to send. Because the triggers sit under your fingers, **holding `m` while working the D-pad** is the one comfortable finger-and-thumb chord — which is exactly where the app-switcher layer lives. (Push-to-talk on `j` is a thumb button, so it can't be combined with the D-pad — use hands-free if you want to dictate *and* navigate at the same time.)
 
 ## Wispr Flow shortcuts
 
 Set these in Wispr Flow → Settings → General → Shortcuts so they match the controller:
 
-- **Push-to-talk** → `Ctrl + Opt` (matches `k`)
-- **Hands-free** → `Fn + Space` (matches `j`)
+- **Push-to-talk** → `Ctrl + Opt` (matches `j`)
+- **Hands-free** → `Fn + Space` (matches `k`)
 
-If Fn behaves oddly (macOS treats it specially), rebind hands-free to something plain like `⌘⇧Space` in Wispr and update the `j` mapping to match.
+If Fn behaves oddly (macOS treats it specially), rebind hands-free to something plain like `⌘⇧Space` in Wispr and update the `k` mapping to match.
 
 ## App-switcher layer
 
@@ -110,7 +110,7 @@ Details:
 
 - **Nothing happens at all** → the Zero 2 isn't enabled in Karabiner's Devices tab, the `vendor_id`/`product_id` don't match EventViewer, or the rule isn't enabled.
 - **Keyboard Setup Assistant keeps appearing** → dismiss it once (see step 1); it stops after the keyboard is identified.
-- **Hands-free won't trigger** → Fn combos can be flaky; rebind it in Wispr to a plain combo and update `j`.
+- **Hands-free won't trigger** → Fn combos can be flaky; rebind it in Wispr to a plain combo and update `k`.
 - **⌘`` ` `` does nothing** → it only cycles windows of the *frontmost* app, so Terminal/iTerm must already be in front.
 - **First press after idle is ignored** → the controller went to sleep; the first press wakes it, the next one registers.
 
