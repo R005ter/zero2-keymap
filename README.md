@@ -6,7 +6,7 @@ Turn a ~$20 [8BitDo Zero 2](https://www.8bitdo.com/zero2/) into a one-handed con
 
 It works by running the Zero 2 in its **keyboard mode**, where each button sends a letter, then using **[Karabiner-Elements](https://karabiner-elements.pqrs.org)** to remap those letters — scoped to the controller only — into the keys and shortcuts Wispr Flow and your terminal expect.
 
-**→ [Open the keymapper](zero2-keymapper.html)** to generate a config for your own device (pick a terminal, enter your device IDs, remap anything), or use the default layout below.
+**→ [Open the keymapper](zero2-keymapper.html)** to generate a config for your own device (pick a terminal, enter your device IDs, remap anything), or use the default layout below. There's also a **[printable cheat sheet](cheatsheet.html)** for your desk.
 
 ---
 
@@ -124,6 +124,7 @@ Details:
 ## Files
 
 - `zero2-keymapper.html` — interactive config generator (also served by this site)
+- `cheatsheet.html` — printable one-page desk reference (US Letter, landscape)
 - `8bitdo-zero2.json` — example config (default layout, preset Zero 2 device IDs)
 - `zero2-keymap.png` / `zero2-keymap.svg` — keymap image and source
 

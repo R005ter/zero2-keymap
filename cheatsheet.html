@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zero 2 — one-hand cheat sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f1ea; --card:#fffdf8; --line:#ddd8cc; --ink:#20201c; --muted:#6b6960;
+    --blue:#3a93a6; --blue-d:#16545f;
+    --green:#2f9e79; --green-d:#114a39;
+    --coral:#d2693f; --coral-d:#7d3417;
+    --shell1:#4ec9bb; --shell2:#2fa698; --shell-line:#1f8478;
+    --sans:'Inter',-apple-system,Helvetica,sans-serif;
+    --mono:'JetBrains Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#d8d4ca;font-family:var(--sans);color:var(--ink);
+       -webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  .sheet{width:11in;height:8.5in;margin:24px auto;background:var(--bg);
+         box-shadow:0 8px 40px rgba(0,0,0,.25);padding:.40in .50in .34in;
+         display:flex;flex-direction:column}
+
+  /* ---------- header ---------- */
+  header{display:flex;justify-content:space-between;align-items:flex-end;
+         border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:6px}
+  .kicker{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;
+          text-transform:uppercase;color:var(--shell-line);font-weight:600}
+  h1{font-size:23px;font-weight:800;margin:2px 0 0;letter-spacing:-.02em}
+  h1 .thin{font-weight:400;color:var(--muted)}
+  .legend{display:flex;gap:14px;font-family:var(--mono);font-size:9px;color:var(--muted);align-items:center}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+
+  /* ---------- main diagram area ---------- */
+  .main{position:relative;width:960px;height:472px;flex:none}
+  .main svg.stage{position:absolute;inset:0;width:960px;height:472px}
+
+  .card{position:absolute;width:236px;background:var(--card);border:1px solid var(--line);
+        border-radius:10px;padding:8px 11px 9px;border-left-width:4px}
+  .card h3{margin:0 0 3px;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:7px;letter-spacing:-.01em}
+  .card p{margin:0;font-size:10px;line-height:1.45;color:var(--muted)}
+  .card p b{color:var(--ink);font-weight:600}
+  .key{font-family:var(--mono);font-size:9px;font-weight:700;color:#fff;border-radius:5px;
+       padding:2px 6px;letter-spacing:.02em;white-space:nowrap}
+  .finger{margin-left:auto;font-family:var(--mono);font-size:8px;color:var(--muted);
+          text-transform:uppercase;letter-spacing:.12em;font-weight:400}
+  .card.blue{border-left-color:var(--blue)}   .card.blue .key{background:var(--blue)}
+  .card.green{border-left-color:var(--green)} .card.green .key{background:var(--green)}
+  .card.coral{border-left-color:var(--coral)} .card.coral .key{background:var(--coral)}
+  .sub{display:flex;gap:8px;margin-top:6px;align-items:flex-start}
+  .sub .key{flex:none;margin-top:1px}
+  .sub p{flex:1}
+
+  /* ---------- bottom strips ---------- */
+  .bottom{display:flex;gap:14px;margin-top:8px;flex:1;min-height:0}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 13px 10px}
+  .panel h2{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+            color:var(--shell-line);margin:0 0 7px;font-weight:600}
+  .chords{width:46%}
+  .chord{display:flex;align-items:center;gap:7px;margin-bottom:6px;font-size:10.5px;color:var(--muted)}
+  .chord:last-child{margin-bottom:0}
+  .chip{font-family:var(--mono);font-size:9px;font-weight:700;padding:2.5px 7px;border-radius:5px;white-space:nowrap}
+  .chip.hold{background:var(--coral);color:#fff}
+  .chip.pad{background:#e0eef0;color:var(--blue-d);border:1px solid var(--blue)}
+  .chord .plus{font-weight:700;color:var(--ink)}
+  .chord em{font-style:normal;color:var(--ink);font-weight:600}
+  .loop{flex:1}
+  .flow{display:flex;align-items:stretch;gap:0;margin-top:2px}
+  .step{flex:1;text-align:center;position:relative;padding:0 4px}
+  .step .n{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:.1em}
+  .step .big{font-family:var(--mono);font-size:11.5px;font-weight:700;margin:2px 0}
+  .step .what{font-size:9px;color:var(--muted);line-height:1.3}
+  .step:not(:last-child)::after{content:"→";position:absolute;right:-7px;top:14px;
+        color:var(--coral);font-weight:800;font-size:13px}
+  .g1{color:var(--green-d)} .c1{color:var(--coral-d)} .b1{color:var(--blue-d)}
+
+  footer{margin-top:8px;border-top:1px solid var(--line);padding-top:6px;
+         font-family:var(--mono);font-size:8.5px;color:var(--muted);
+         display:flex;justify-content:space-between;gap:18px}
+
+  .printhint{text-align:center;font:12px var(--sans);color:#555;padding:6px 0 18px}
+  .printhint kbd{font-family:var(--mono);background:#eee;border:1px solid #ccc;border-radius:4px;padding:1px 5px}
+
+  @page{size:letter landscape;margin:0}
+  @media print{
+    body{background:#fff}
+    .sheet{margin:0;box-shadow:none;width:11in;height:8.5in}
+    .printhint{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <header>
+    <div>
+      <div class="kicker">Wispr Flow + Claude Code &middot; macOS &middot; Karabiner-Elements</div>
+      <h1>8BitDo Zero&nbsp;2 <span class="thin">&mdash; one-hand cheat sheet</span></h1>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:#e0eef0;border:1.5px solid var(--blue)"></span>D-pad &middot; thumb</span>
+      <span><span class="dot" style="background:#e1efe7;border:1.5px solid var(--green)"></span>face &middot; thumb</span>
+      <span><span class="dot" style="background:#f7ddd1;border:1.5px solid var(--coral)"></span>triggers &middot; fingers</span>
+    </div>
+  </header>
+
+  <div class="main">
+    <svg class="stage" viewBox="0 0 960 472" font-family="'JetBrains Mono',Menlo,monospace">
+      <defs>
+        <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#54d0c2"/><stop offset=".55" stop-color="#3fbdb0"/><stop offset="1" stop-color="#2fa698"/>
+        </linearGradient>
+        <linearGradient id="tab" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#2da193"/><stop offset="1" stop-color="#27928a"/>
+        </linearGradient>
+        <radialGradient id="btn" cx=".38" cy=".32" r=".9">
+          <stop offset="0" stop-color="#3d4046"/><stop offset="1" stop-color="#232529"/>
+        </radialGradient>
+      </defs>
+
+      <!-- ===== shoulder tabs (behind body) ===== -->
+      <g>
+        <rect x="566" y="50"  width="66" height="64" rx="14" fill="url(#tab)" stroke="var(--shell-line)" stroke-width="1.4"/>
+        <rect x="566" y="338" width="66" height="64" rx="14" fill="url(#tab)" stroke="var(--shell-line)" stroke-width="1.4"/>
+        <text x="612" y="78"  text-anchor="middle" font-size="12" font-weight="700" fill="#fff">k</text>
+        <text x="612" y="92"  text-anchor="middle" font-size="7"  fill="#d8f6f1">index</text>
+        <text x="612" y="366" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">m</text>
+        <text x="612" y="380" text-anchor="middle" font-size="7"  fill="#d8f6f1">ring</text>
+      </g>
+
+      <!-- ===== body ===== -->
+      <rect x="372" y="12" width="216" height="440" rx="54" fill="url(#shell)" stroke="var(--shell-line)" stroke-width="2"/>
+      <rect x="379" y="19" width="202" height="426" rx="48" fill="none" stroke="#ffffff" stroke-opacity=".28" stroke-width="1.5"/>
+
+      <!-- D-pad -->
+      <g>
+        <rect x="438" y="103" width="84" height="26" rx="9" fill="url(#btn)"/>
+        <rect x="467" y="74"  width="26" height="84" rx="9" fill="url(#btn)"/>
+        <circle cx="480" cy="116" r="9" fill="#1c1e21"/>
+        <text x="480" y="95"  text-anchor="middle" font-size="13" fill="#fff">&#8593;</text>
+        <text x="480" y="151" text-anchor="middle" font-size="13" fill="#fff">&#8595;</text>
+        <text x="452" y="121" text-anchor="middle" font-size="13" fill="#fff">&#8592;</text>
+        <text x="508" y="121" text-anchor="middle" font-size="13" fill="#fff">&#8594;</text>
+        <text x="480" y="68"  text-anchor="middle" font-size="8" fill="#0d5249" opacity=".8">e</text>
+        <text x="480" y="172" text-anchor="middle" font-size="8" fill="#0d5249" opacity=".8">f</text>
+        <text x="428" y="120" text-anchor="middle" font-size="8" fill="#0d5249" opacity=".8">d</text>
+        <text x="533" y="120" text-anchor="middle" font-size="8" fill="#0d5249" opacity=".8">c</text>
+      </g>
+
+      <!-- select / start -->
+      <g>
+        <rect x="456" y="200" width="21" height="9" rx="4.5" fill="#1c655c"/>
+        <rect x="483" y="200" width="21" height="9" rx="4.5" fill="#1c655c"/>
+        <text x="480" y="224" text-anchor="middle" font-size="8" fill="#0d5249">select &#183; start &#8212; spare</text>
+      </g>
+
+      <!-- 8BitDo wordmark -->
+      <text x="396" y="262" text-anchor="middle" font-size="9" letter-spacing="2.5" fill="#15695f"
+            transform="rotate(-90 396 262)">8BitDo</text>
+
+      <!-- face buttons -->
+      <g font-size="10.5" font-weight="700">
+        <circle cx="480" cy="256" r="20" fill="url(#btn)"/>
+        <circle cx="434" cy="300" r="20" fill="url(#btn)"/>
+        <circle cx="526" cy="300" r="20" fill="url(#btn)"/>
+        <circle cx="480" cy="344" r="20" fill="url(#btn)"/>
+        <text x="480" y="260" text-anchor="middle" fill="#fff">i</text>
+        <text x="434" y="304" text-anchor="middle" fill="#fff">j</text>
+        <text x="526" y="304" text-anchor="middle" fill="#fff">h</text>
+        <text x="480" y="348" text-anchor="middle" fill="#fff">g</text>
+      </g>
+
+      <!-- ===== leader lines (on top, so they land on the buttons) ===== -->
+      <g stroke-width="1.6" fill="none" opacity=".88">
+        <path d="M248 60 L436 116"  stroke="var(--blue)"/>
+        <path d="M248 158 L459 252" stroke="var(--green)"/>
+        <path d="M248 252 L412 300" stroke="var(--green)"/>
+        <path d="M248 348 L462 356" stroke="var(--green)"/>
+        <path d="M712 66 L634 82"   stroke="var(--coral)"/>
+        <path d="M712 222 L634 366" stroke="var(--coral)"/>
+        <path d="M712 344 L542 290" stroke="var(--green)"/>
+      </g>
+      <g>
+        <circle cx="436" cy="116" r="4" fill="var(--blue)"/>
+        <circle cx="459" cy="252" r="4" fill="var(--green)"/>
+        <circle cx="412" cy="300" r="4" fill="var(--green)"/>
+        <circle cx="462" cy="356" r="4" fill="var(--green)"/>
+        <circle cx="634" cy="82"  r="4" fill="var(--coral)"/>
+        <circle cx="634" cy="366" r="4" fill="var(--coral)"/>
+        <circle cx="542" cy="290" r="4" fill="var(--green)"/>
+      </g>
+
+      <!-- grip caption -->
+      <text x="480" y="468" text-anchor="middle" font-size="9" fill="#6b6960">held in the left hand &middot; thumb works the front &middot; index on k &middot; ring on m</text>
+    </svg>
+
+    <!-- ===== left column ===== -->
+    <div class="card blue" style="left:12px;top:18px">
+      <h3><span class="key">&#8593; &#8595; &#8592; &#8594;</span>Arrow keys<span class="finger">thumb</span></h3>
+      <p>Navigate Claude Code &mdash; menus, options, history. Real arrow-key presses, so they work everywhere.</p>
+    </div>
+    <div class="card green" style="left:12px;top:118px">
+      <h3><span class="key">i &middot; tap</span>Flip to last app<span class="finger">thumb</span></h3>
+      <p><b>&#8984;Tab</b> &mdash; bounce between your two most-recent apps. Need something deeper in the stack? <b>Hold m</b> instead.</p>
+    </div>
+    <div class="card green" style="left:12px;top:212px">
+      <h3><span class="key">j &middot; tap</span>Wispr hands-free<span class="finger">thumb</span></h3>
+      <p><b>Fn+Space</b> &mdash; toggle always-on dictation. Tap again to stop listening.</p>
+    </div>
+    <div class="card green" style="left:12px;top:306px">
+      <h3><span class="key">g &middot; tap</span>Launch / focus Terminal<span class="finger">thumb</span></h3>
+      <p>Jumps you home from anywhere &mdash; opens Terminal if it isn&rsquo;t running, focuses it if it is.</p>
+    </div>
+
+    <!-- ===== right column ===== -->
+    <div class="card coral" style="left:712px;top:18px">
+      <h3><span class="key">k &middot; hold</span>Push-to-talk<span class="finger">index</span></h3>
+      <p>Holds <b>Ctrl+Opt</b> for Wispr Flow. Speak while held; release and the text drops in. The D-pad keeps working mid-dictation.</p>
+    </div>
+    <div class="card coral" style="left:712px;top:128px">
+      <h3>The ring trigger<span class="finger">ring</span></h3>
+      <div class="sub"><span class="key">m &middot; tap</span>
+        <p><b>Enter</b> &mdash; submit to Claude Code. (Quick tap: down&ndash;up within a second.)</p></div>
+      <div class="sub"><span class="key">m &middot; hold</span>
+        <p><b>App-switcher layer</b> &mdash; &#8984; is held for you. D-pad <b>&#8594; / &#8592;</b> steps through <i>every</i> open app, the switcher stays up, and <b>releasing m lands</b> on the one you picked. D-pad <b>&#8595;</b> = Expos&eacute; of the highlighted app&rsquo;s windows.</p></div>
+    </div>
+    <div class="card green" style="left:712px;top:332px">
+      <h3><span class="key">h &middot; tap</span>Cycle app windows<span class="finger">thumb</span></h3>
+      <p><b>&#8984;`</b> &mdash; next window of the <i>frontmost</i> app (e.g. Terminal &#8646; Terminal). Bring it forward first.</p>
+    </div>
+  </div>
+
+  <!-- ===== bottom ===== -->
+  <div class="bottom">
+    <div class="panel chords">
+      <h2>Chords &mdash; finger holds, thumb steers</h2>
+      <div class="chord"><span class="chip hold">hold m</span><span class="plus">+</span><span class="chip pad">&#8594; / &#8592;</span><span><em>walk every open app</em> &mdash; release m to switch</span></div>
+      <div class="chord"><span class="chip hold">hold m</span><span class="plus">+</span><span class="chip pad">&#8595;</span><span><em>Expos&eacute;</em> of the highlighted app&rsquo;s windows</span></div>
+      <div class="chord"><span class="chip hold">hold k</span><span class="plus">+</span><span class="chip pad">D-pad</span><span><em>arrows while dictating</em></span></div>
+    </div>
+    <div class="panel loop">
+      <h2>The loop &mdash; an entire prompt without touching the keyboard</h2>
+      <div class="flow">
+        <div class="step"><div class="n">1</div><div class="big g1">g</div><div class="what">focus<br>Terminal</div></div>
+        <div class="step"><div class="n">2</div><div class="big c1">hold k</div><div class="what">speak your<br>prompt</div></div>
+        <div class="step"><div class="n">3</div><div class="big c1">tap m</div><div class="what">send it</div></div>
+        <div class="step"><div class="n">4</div><div class="big b1">D-pad</div><div class="what">navigate<br>menus</div></div>
+        <div class="step"><div class="n">5</div><div class="big c1">m</div><div class="what">confirm</div></div>
+        <div class="step"><div class="n">6</div><div class="big c1">hold m+&#8594;</div><div class="what">hop to<br>browser</div></div>
+        <div class="step"><div class="n">7</div><div class="big g1">i</div><div class="what">flip<br>back</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>rules are device-scoped &mdash; your real keyboard is never remapped</span>
+    <span>wispr settings must match: push-to-talk Ctrl+Opt &middot; hands-free Fn+Space</span>
+    <span>holding m alone does nothing &mdash; no stray Enter</span>
+  </footer>
+</div>
+
+<div class="printhint">Print with <kbd>&#8984;P</kbd> &mdash; layout is US Letter, landscape. Looks best with margins set to &ldquo;None&rdquo;.</div>
+
+</body>
+</html>

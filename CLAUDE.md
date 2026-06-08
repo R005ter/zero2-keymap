@@ -25,6 +25,7 @@ one-handed **Wispr Flow + Claude Code** controller on macOS, using **Karabiner-E
 ## Files
 - `README.md` — the guide (Pages home + repo readme)
 - `zero2-keymapper.html` — interactive config generator (self-contained, runs on Pages)
+- `cheatsheet.html` — printable one-page desk reference (US Letter landscape; static, hand-maintained — does NOT read from the generator). Update it by hand if the default layout changes.
 - `8bitdo-zero2.json` — default Karabiner complex_modifications config
 - `zero2-keymap.png` — keymap image embedded in README
 - `zero2-keymap.svg` — source for the PNG
