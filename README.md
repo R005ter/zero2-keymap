@@ -18,6 +18,7 @@ It works by running the Zero 2 in its **keyboard mode**, where each button sends
 - **Arrow keys** on the D-pad for navigating Claude Code and menus
 - **Launch / focus your terminal**, **cycle terminal windows**, and **cycle apps** on the face buttons
 - An **app-switcher layer** on the same ring-finger trigger — hold it and the D-pad steps through every open app
+- A **scroll layer** on the index trigger — hold it and the D-pad ↑/↓ page through the terminal scrollback
 
 ## You'll need
 
@@ -76,7 +77,7 @@ This imports the default layout. Its `vendor_id` / `product_id` are preset for t
 | --- | --- | --- |
 | D-pad up / down / left / right | `e` `f` `d` `c` | Arrow keys |
 | `m` — lower side (ring) | `m` | **Enter** (tap) · **app-switcher layer** (hold) |
-| `k` — upper side (index) | `k` | **Hands-free** toggle (Fn + Space) |
+| `k` — upper side (index) | `k` | **Hands-free** toggle (Fn + Space, tap) · **scroll layer** (hold) |
 | `j` — left face | `j` | **Push-to-talk** (Ctrl + Opt, held) |
 | `g` — bottom face | `g` | Launch / focus terminal |
 | `h` — right face | `h` | Cycle terminal windows (⌘ + `` ` ``) |
@@ -110,6 +111,16 @@ Details:
 
 ---
 
+## Scroll layer
+
+**Hold `k`** (index trigger) and the D-pad **↑ / ↓** become **Page Up / Page Down**, paging through the terminal's scrollback — your finger holds while your thumb scrolls. Release `k` and the D-pad is arrows again. A quick `k` tap (not held) is still Wispr hands-free, so the same trigger does both.
+
+Unlike the app-switcher layer, the scroll layer holds **no modifier** — it rides its own variable (`zero2_scroll`), so Page Up/Down go to the focused window, not wherever the mouse happens to be. (Scroll-*wheel* events, by contrast, follow the pointer, which is why this uses Page Up/Down instead.)
+
+If your terminal sends Page Up *to the running program* instead of scrolling — some terminals/configs do — change the `k`-layer keys to `shift+page_up` / `shift+page_down` in the keymapper or the JSON.
+
+---
+
 ## Troubleshooting
 
 - **Nothing happens at all** → the Zero 2 isn't enabled in Karabiner's Devices tab, the `vendor_id`/`product_id` don't match EventViewer, or the rule isn't enabled.
@@ -117,6 +128,7 @@ Details:
 - **Hands-free won't trigger** → Fn combos can be flaky; rebind it in Wispr to a plain combo and update `k`.
 - **⌘`` ` `` does nothing** → it only cycles windows of the *frontmost* app, so Terminal/iTerm must already be in front.
 - **First press after idle is ignored** → the controller went to sleep; the first press wakes it, the next one registers.
+- **Hold `k` + D-pad doesn't scroll** → Page Up/Down may be going to the program in front (e.g. a pager/editor on its alternate screen) rather than the scrollback; or your terminal sends them to the shell. Try a plain prompt, or swap the `k`-layer keys to `shift+page_up` / `shift+page_down`.
 
 ## Caveats
 
