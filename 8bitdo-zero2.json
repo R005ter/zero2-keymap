@@ -2,7 +2,7 @@
   "title": "8BitDo Zero 2 — Wispr Flow + Claude Code",
   "rules": [
     {
-      "description": "Zero 2 — Navigation (D-pad arrows; m = Enter tap / app-switcher hold)",
+      "description": "Zero 2 — Navigation + Command layer (D-pad arrows; m tap = Enter, m hold = Cmd layer: D-pad ⇄ apps, k = Cmd+Enter)",
       "manipulators": [
         {
           "type": "basic",
@@ -17,6 +17,15 @@
           "type": "basic",
           "from": { "key_code": "d", "modifiers": { "optional": ["any"] } },
           "to": [{ "key_code": "tab", "modifiers": ["left_shift"] }],
+          "conditions": [
+            { "type": "variable_if", "name": "zero2_app_switcher", "value": 1 },
+            { "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "k", "modifiers": { "optional": ["any"] } },
+          "to": [{ "key_code": "return_or_enter" }],
           "conditions": [
             { "type": "variable_if", "name": "zero2_app_switcher", "value": 1 },
             { "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }

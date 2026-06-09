@@ -51,8 +51,8 @@ macOS pops the Keyboard Setup Assistant on pair; dismiss it (it's a real keyboar
 | key | function |
 |-----|----------|
 | e/f/d/c | arrows up/down/left/right |
-| k (index, tap) | Fn+Space → Wispr hands-free toggle |
-| m (ring) | tap = Return · hold = app-switcher layer (Cmd held, D-pad ⇄ apps) |
+| k (index, tap) | Fn+Space → Wispr hands-free toggle (while m held: Return → ⌘Enter send) |
+| m (ring) | tap = Return · hold = Cmd layer (Cmd held; D-pad ⇄ apps, k = ⌘Enter) |
 | j (left face, hold) | Ctrl+Opt → Wispr push-to-talk |
 | g | `open -a Terminal` |
 | h | Cmd+\` → cycle terminal windows |
@@ -70,9 +70,11 @@ Wispr Flow shortcuts must match: push-to-talk = **Ctrl+Opt**, hands-free = **Fn+
 - **App-switcher layer**: two layer functions — `app_layer` (hold only) and `enter_app_layer`
   (default on m; adds `to_if_alone` = Return, so tap = Enter, hold = layer). Both hold Cmd lazily +
   set variable `zero2_app_switcher`; the D-pad left/right buttons get variable-gated Shift+Tab/Tab
-  manipulators emitted BEFORE the normal arrow ones (Karabiner = first-match-wins). A tap-to-latch
-  switcher is impossible: macOS commits the instant Cmd releases, so the layer must sit on a
-  finger-held button (m/ring) while the thumb works the D-pad.
+  manipulators emitted BEFORE the normal arrow ones (Karabiner = first-match-wins). The **hands-free
+  button gets the same treatment** — a variable-gated `return_or_enter` manipulator emitted before its
+  plain Fn+Space one, so while the layer holds Cmd lazily, tapping it lands as **⌘Enter** (send). A
+  tap-to-latch switcher is impossible: macOS commits the instant Cmd releases, so the layer must sit on
+  a finger-held button (m/ring) while the thumb works the D-pad.
 - **Every `from` carries `modifiers:{optional:['any']}`** (`fromKey()`): Karabiner counts its own
   rule-held output modifiers (lazy Cmd, PTT's Ctrl+Opt) toward from-matching, and a `from` without
   `modifiers` only matches when none are active — omitting it breaks every button mid-layer/mid-PTT.

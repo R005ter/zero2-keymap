@@ -278,6 +278,10 @@ function buildConfig(){
     const leftKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='left');
     if(rightKey)manips.push({type:'basic',from:fromKey(rightKey),to:[{key_code:'tab'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
     if(leftKey)manips.push({type:'basic',from:fromKey(leftKey),to:[{key_code:'tab',modifiers:['left_shift']}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    // Layer also holds Cmd lazily, so the hands-free trigger becomes Cmd+Enter (send) while held —
+    // gated manipulator pushed before the plain hands-free one below, so it wins (first-match) when the layer is active.
+    const hfKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='handsfree');
+    if(hfKey)manips.push({type:'basic',from:fromKey(hfKey),to:[{key_code:'return_or_enter'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
   }
   for(const b of BUTTONS){
     const fn=state.map[b.id];

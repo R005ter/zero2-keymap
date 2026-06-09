@@ -14,6 +14,7 @@ It works by running the Zero 2 in its **keyboard mode**, where each button sends
 
 - **Dictate two ways** — tap the index-finger trigger for hands-free Wispr Flow (talk while you keep navigating), or hold the left face button for push-to-talk bursts
 - **Tap to submit** — Enter on the ring-finger trigger, so dictate-then-send never leaves your trigger fingers
+- **Send vs. newline** — hold the ring trigger and tap the index trigger for **⌘Enter**, for the apps where a plain Enter only inserts a newline
 - **Arrow keys** on the D-pad for navigating Claude Code and menus
 - **Launch / focus your terminal**, **cycle terminal windows**, and **cycle apps** on the face buttons
 - An **app-switcher layer** on the same ring-finger trigger — hold it and the D-pad steps through every open app
@@ -81,6 +82,8 @@ This imports the default layout. Its `vendor_id` / `product_id` are preset for t
 | `h` — right face | `h` | Cycle terminal windows (⌘ + `` ` ``) |
 | `i` — top face | `i` | Cycle apps (⌘ + Tab) |
 
+**Chord — ⌘Enter (send):** hold `m` (ring) and tap `k` (index). Holding `m` already holds Command for the app-switcher layer, so the index trigger's Enter lands as **⌘Enter** — for apps where a plain Enter only adds a newline. A normal `k` tap (without `m` held) is still Wispr hands-free.
+
 Tap `k` (index trigger) to toggle hands-free Wispr Flow and talk while your thumb keeps steering the D-pad; or hold `j` for a quick push-to-talk burst. Tap `m` to send. Because the triggers sit under your fingers, **holding `m` while working the D-pad** is the one comfortable finger-and-thumb chord — which is exactly where the app-switcher layer lives. (Push-to-talk on `j` is a thumb button, so it can't be combined with the D-pad — use hands-free if you want to dictate *and* navigate at the same time.)
 
 ## Wispr Flow shortcuts
@@ -100,6 +103,7 @@ Why it's on `m`: the switcher only stays open while ⌘ is physically held — m
 
 Details:
 
+- While `m` is held, tapping the index trigger `k` sends **⌘Enter** — Command is already down for the layer, so the index trigger's Enter lands as ⌘Enter. A free "send" chord for apps where a plain Enter only inserts a newline; `k` is still Wispr hands-free when tapped on its own.
 - A quick tap of `m` is still plain **Enter** — the layer only engages while held (Karabiner's `to_if_alone`).
 - Holding `m` for over a second without touching the D-pad does nothing — no stray Enter on release.
 - In the keymapper you can move the layer to any button, with (**Enter (tap) / app switcher (hold)**) or without (**App-switcher layer (hold)**) the Enter tap.
