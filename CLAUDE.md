@@ -51,8 +51,8 @@ macOS pops the Keyboard Setup Assistant on pair; dismiss it (it's a real keyboar
 | key | function |
 |-----|----------|
 | e/f/d/c | arrows up/down/left/right |
-| k (index) | tap = Fn+Space → Wispr hands-free (while m held: Return → ⌘Enter send) · hold = scroll layer (D-pad ↑↓ = PageUp/PageDown) |
-| m (ring) | tap = Return · hold = Cmd layer (Cmd held; D-pad ⇄ apps, k = ⌘Enter) |
+| k (index, tap) | Fn+Space → Wispr hands-free toggle (while m held: Return → ⌘Enter send) |
+| m (ring) | tap = Return · hold = Cmd layer (Cmd held; D-pad ⇄ apps, ↑↓ = scroll via ⌘PageUp/Dn, k = ⌘Enter) |
 | j (left face, hold) | Ctrl+Opt → Wispr push-to-talk |
 | g | `open -a Terminal` |
 | h | Cmd+\` → cycle terminal windows |
@@ -67,22 +67,18 @@ Wispr Flow shortcuts must match: push-to-talk = **Ctrl+Opt**, hands-free = **Fn+
 - `buildConfig()` emits one Karabiner rule. `toEvents(fn)` maps a function id → `to` events.
   `launchShell()` builds the terminal-launch command (`open -a`, or an osascript do-script /
   iTerm variant when `launchCmd` is set).
-- **App-switcher layer**: two layer functions — `app_layer` (hold only) and `enter_app_layer`
+- **Command layer**: two layer functions — `app_layer` (hold only) and `enter_app_layer`
   (default on m; adds `to_if_alone` = Return, so tap = Enter, hold = layer). Both hold Cmd lazily +
-  set variable `zero2_app_switcher`; the D-pad left/right buttons get variable-gated Shift+Tab/Tab
-  manipulators emitted BEFORE the normal arrow ones (Karabiner = first-match-wins). The **hands-free
-  button gets the same treatment** — a variable-gated `return_or_enter` manipulator emitted before its
-  plain Fn+Space one, so while the layer holds Cmd lazily, tapping it lands as **⌘Enter** (send). A
-  tap-to-latch switcher is impossible: macOS commits the instant Cmd releases, so the layer must sit on
-  a finger-held button (m/ring) while the thumb works the D-pad.
-- **Scroll layer**: `handsfree_scroll` (default on k) and `scroll_layer` (hold-only variant, no
-  hands-free tap). `handsfree_scroll` sets `to_if_alone` = Fn+Space (tap = hands-free) and `to` =
-  set variable `zero2_scroll` (hold). While held, the D-pad up/down buttons get variable-gated
-  `page_up`/`page_down` manipulators emitted BEFORE the normal arrows. **Independent of the Cmd
-  layer** — it holds NO modifier, so Page Up/Down reach the focused window (not the pointer's window,
-  which is why scroll-wheel was rejected). Gated on a separate variable, so `hold m + tap k` (⌘Enter)
-  and `hold k` (scroll) never collide: when m is held, k's ⌘Enter manipulator wins first-match and
-  the scroll layer never engages.
+  set variable `zero2_app_switcher`. While held, three sets of variable-gated manipulators fire,
+  emitted BEFORE the normal arrow/hands-free ones (Karabiner = first-match-wins): D-pad left/right →
+  Shift+Tab/Tab (app cycle); D-pad up/down → `page_up`/`page_down`; and the hands-free button →
+  `return_or_enter`. The held lazy Cmd rides along on every one, so they emit ⌘Tab / ⌘⇧Tab,
+  **⌘PageUp/⌘PageDown** (Terminal.app scrolls on these), and **⌘Enter** (send). Up/down → scroll
+  deliberately replaces the old ⌘↑/↓ Exposé. A tap-to-latch switcher is impossible: macOS commits the
+  instant Cmd releases, so the layer must sit on a finger-held button (m, the lower trigger) while the
+  thumb works the D-pad — left/right and up/down are independent directions, so apps + scroll share the
+  one hold. Scroll riding on ⌘PageUp is the reason it lives here and not on a separate no-modifier layer
+  (and why mouse-wheel was rejected: wheel events follow the pointer, ⌘PageUp follows focus).
 - **Every `from` carries `modifiers:{optional:['any']}`** (`fromKey()`): Karabiner counts its own
   rule-held output modifiers (lazy Cmd, PTT's Ctrl+Opt) toward from-matching, and a `from` without
   `modifiers` only matches when none are active — omitting it breaks every button mid-layer/mid-PTT.

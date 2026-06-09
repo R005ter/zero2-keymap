@@ -17,8 +17,7 @@ It works by running the Zero 2 in its **keyboard mode**, where each button sends
 - **Send vs. newline** — hold the ring trigger and tap the index trigger for **⌘Enter**, for the apps where a plain Enter only inserts a newline
 - **Arrow keys** on the D-pad for navigating Claude Code and menus
 - **Launch / focus your terminal**, **cycle terminal windows**, and **cycle apps** on the face buttons
-- An **app-switcher layer** on the same ring-finger trigger — hold it and the D-pad steps through every open app
-- A **scroll layer** on the index trigger — hold it and the D-pad ↑/↓ page through the terminal scrollback
+- A **Command layer** on the ring-finger trigger — hold it, then the D-pad steps through every open app (←/→) **and pages through the terminal scrollback (↑/↓)**
 
 ## You'll need
 
@@ -76,16 +75,16 @@ This imports the default layout. Its `vendor_id` / `product_id` are preset for t
 | Button | Key it sends | Function |
 | --- | --- | --- |
 | D-pad up / down / left / right | `e` `f` `d` `c` | Arrow keys |
-| `m` — lower side (ring) | `m` | **Enter** (tap) · **app-switcher layer** (hold) |
-| `k` — upper side (index) | `k` | **Hands-free** toggle (Fn + Space, tap) · **scroll layer** (hold) |
+| `m` — lower side (ring) | `m` | **Enter** (tap) · **Command layer** (hold): D-pad ←/→ apps, ↑/↓ scroll |
+| `k` — upper side (index) | `k` | **Hands-free** toggle (Fn + Space) |
 | `j` — left face | `j` | **Push-to-talk** (Ctrl + Opt, held) |
 | `g` — bottom face | `g` | Launch / focus terminal |
 | `h` — right face | `h` | Cycle terminal windows (⌘ + `` ` ``) |
 | `i` — top face | `i` | Cycle apps (⌘ + Tab) |
 
-**Chord — ⌘Enter (send):** hold `m` (ring) and tap `k` (index). Holding `m` already holds Command for the app-switcher layer, so the index trigger's Enter lands as **⌘Enter** — for apps where a plain Enter only adds a newline. A normal `k` tap (without `m` held) is still Wispr hands-free.
+**Chord — ⌘Enter (send):** hold `m` (ring) and tap `k` (index). Holding `m` already holds Command for the layer, so the index trigger's Enter lands as **⌘Enter** — for apps where a plain Enter only adds a newline. A normal `k` tap (without `m` held) is still Wispr hands-free.
 
-Tap `k` (index trigger) to toggle hands-free Wispr Flow and talk while your thumb keeps steering the D-pad; or hold `j` for a quick push-to-talk burst. Tap `m` to send. Because the triggers sit under your fingers, **holding `m` while working the D-pad** is the one comfortable finger-and-thumb chord — which is exactly where the app-switcher layer lives. (Push-to-talk on `j` is a thumb button, so it can't be combined with the D-pad — use hands-free if you want to dictate *and* navigate at the same time.)
+Tap `k` (index trigger) to toggle hands-free Wispr Flow and talk while your thumb keeps steering the D-pad; or hold `j` for a quick push-to-talk burst. Tap `m` to send. Because the triggers sit under your fingers, **holding `m` while working the D-pad** is the one comfortable finger-and-thumb chord — which is exactly where the Command layer lives. (Push-to-talk on `j` is a thumb button, so it can't be combined with the D-pad — use hands-free if you want to dictate *and* navigate at the same time.)
 
 ## Wispr Flow shortcuts
 
@@ -96,28 +95,24 @@ Set these in Wispr Flow → Settings → General → Shortcuts so they match the
 
 If Fn behaves oddly (macOS treats it specially), rebind hands-free to something plain like `⌘⇧Space` in Wispr and update the `k` mapping to match.
 
-## App-switcher layer
+## Command layer
 
-**Hold `m`** (instead of tapping it for Enter) and Command is held for you — lazily, so nothing fires until you press something else. While holding, D-pad **left/right** become Shift+Tab / Tab: the ⌘Tab switcher comes up, *stays* up, and you step through every open app. **Release `m` to land on the selected one** — real cycling, not the two-app toggle a single ⌘Tab tap gives you. (Up/down still send arrows, so ↓ opens Exposé on the highlighted app, just like on a keyboard.)
+**Hold `m`** (instead of tapping it for Enter) and Command is held for you — lazily, so nothing fires until you press something else. With it held, the D-pad does three things:
 
-Why it's on `m`: the switcher only stays open while ⌘ is physically held — macOS commits the moment it's released, so a tap-to-latch version isn't possible. The hold has to live on a button your fingers can keep down *while* your thumb works the D-pad, and that's the ring-finger trigger.
+- **left / right** → Shift+Tab / Tab: the ⌘Tab switcher comes up, *stays* up, and you step through every open app. **Release `m` to land on the selected one** — real cycling, not the two-app toggle a single ⌘Tab tap gives you.
+- **up / down** → **⌘PageUp / ⌘PageDown**, paging through the terminal scrollback. The held Command rides along on Page Up/Down, and Terminal.app scrolls on ⌘PageUp — so up/down scroll while you hold `m`.
+- tapping the index trigger **`k`** → **⌘Enter** — Command's already down, so `k`'s Enter lands as ⌘Enter. A free "send" chord for apps where a plain Enter only inserts a newline; `k` is still Wispr hands-free when tapped on its own.
+
+Left/right and up/down are independent directions, so app-switching and scrolling coexist on the same hold. Everything sits on the one trigger you can keep down *while* the thumb works the D-pad — held in the left hand, that's the lower (ring / middle-finger) trigger.
+
+Why a held layer and not tap-to-latch: the ⌘Tab switcher only stays open while Command is physically held — macOS commits the instant it's released — so the layer has to live on a button you can keep down.
 
 Details:
 
-- While `m` is held, tapping the index trigger `k` sends **⌘Enter** — Command is already down for the layer, so the index trigger's Enter lands as ⌘Enter. A free "send" chord for apps where a plain Enter only inserts a newline; `k` is still Wispr hands-free when tapped on its own.
 - A quick tap of `m` is still plain **Enter** — the layer only engages while held (Karabiner's `to_if_alone`).
 - Holding `m` for over a second without touching the D-pad does nothing — no stray Enter on release.
-- In the keymapper you can move the layer to any button, with (**Enter (tap) / app switcher (hold)**) or without (**App-switcher layer (hold)**) the Enter tap.
-
----
-
-## Scroll layer
-
-**Hold `k`** (index trigger) and the D-pad **↑ / ↓** become **Page Up / Page Down**, paging through the terminal's scrollback — your finger holds while your thumb scrolls. Release `k` and the D-pad is arrows again. A quick `k` tap (not held) is still Wispr hands-free, so the same trigger does both.
-
-Unlike the app-switcher layer, the scroll layer holds **no modifier** — it rides its own variable (`zero2_scroll`), so Page Up/Down go to the focused window, not wherever the mouse happens to be. (Scroll-*wheel* events, by contrast, follow the pointer, which is why this uses Page Up/Down instead.)
-
-If your terminal sends Page Up *to the running program* instead of scrolling — some terminals/configs do — change the `k`-layer keys to `shift+page_up` / `shift+page_down` in the keymapper or the JSON.
+- Scroll rides on **⌘PageUp / ⌘PageDown**, which scrolls Terminal.app. If your terminal sends Page Up to the program in front instead, change the layer's up/down keys to `shift+page_up` / `shift+page_down`.
+- In the keymapper you can move the layer to any button, with (**Enter (tap) / Cmd layer (hold)**) or without (**Cmd layer (hold)**) the Enter tap.
 
 ---
 
@@ -128,7 +123,7 @@ If your terminal sends Page Up *to the running program* instead of scrolling —
 - **Hands-free won't trigger** → Fn combos can be flaky; rebind it in Wispr to a plain combo and update `k`.
 - **⌘`` ` `` does nothing** → it only cycles windows of the *frontmost* app, so Terminal/iTerm must already be in front.
 - **First press after idle is ignored** → the controller went to sleep; the first press wakes it, the next one registers.
-- **Hold `k` + D-pad doesn't scroll** → Page Up/Down may be going to the program in front (e.g. a pager/editor on its alternate screen) rather than the scrollback; or your terminal sends them to the shell. Try a plain prompt, or swap the `k`-layer keys to `shift+page_up` / `shift+page_down`.
+- **Hold `m` + ↑/↓ doesn't scroll** → ⌘PageUp/Down may be hitting a full-screen program (pager/editor) rather than the scrollback, or your terminal doesn't scroll on ⌘PageUp. Try a plain prompt, or swap the layer's up/down keys to `shift+page_up` / `shift+page_down`.
 
 ## Caveats
 

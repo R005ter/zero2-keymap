@@ -2,7 +2,7 @@
   "title": "8BitDo Zero 2 — Wispr Flow + Claude Code",
   "rules": [
     {
-      "description": "Zero 2 — Navigation + layers (D-pad arrows; m hold = Cmd layer: D-pad ⇄ apps, k = Cmd+Enter; k hold = scroll layer: D-pad ↑↓ = Page Up/Down)",
+      "description": "Zero 2 — Navigation + Cmd layer (D-pad arrows; m hold = Cmd layer: D-pad ⇄ apps, ↑↓ = scroll (⌘PageUp/Dn), k = Cmd+Enter)",
       "manipulators": [
         {
           "type": "basic",
@@ -36,7 +36,7 @@
           "from": { "key_code": "e", "modifiers": { "optional": ["any"] } },
           "to": [{ "key_code": "page_up" }],
           "conditions": [
-            { "type": "variable_if", "name": "zero2_scroll", "value": 1 },
+            { "type": "variable_if", "name": "zero2_app_switcher", "value": 1 },
             { "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }
           ]
         },
@@ -45,7 +45,7 @@
           "from": { "key_code": "f", "modifiers": { "optional": ["any"] } },
           "to": [{ "key_code": "page_down" }],
           "conditions": [
-            { "type": "variable_if", "name": "zero2_scroll", "value": 1 },
+            { "type": "variable_if", "name": "zero2_app_switcher", "value": 1 },
             { "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }
           ]
         },
@@ -87,14 +87,12 @@
       ]
     },
     {
-      "description": "Zero 2 — Wispr Flow (k tap = hands-free Fn+Space / hold = scroll layer, j = push-to-talk Ctrl+Opt)",
+      "description": "Zero 2 — Wispr Flow (k = hands-free Fn+Space, j = push-to-talk Ctrl+Opt)",
       "manipulators": [
         {
           "type": "basic",
           "from": { "key_code": "k", "modifiers": { "optional": ["any"] } },
-          "to": [{ "set_variable": { "name": "zero2_scroll", "value": 1 } }],
-          "to_if_alone": [{ "key_code": "spacebar", "modifiers": ["fn"] }],
-          "to_after_key_up": [{ "set_variable": { "name": "zero2_scroll", "value": 0 } }],
+          "to": [{ "key_code": "spacebar", "modifiers": ["fn"] }],
           "conditions": [{ "type": "device_if", "identifiers": [{ "vendor_id": 11720, "product_id": 36888 }] }]
         },
         {

@@ -213,15 +213,11 @@ const FUNCS={
   launch_term:{label:'Launch / focus terminal',tag:'Term'},
   cycle_win:{label:'Cycle terminal windows',tag:'Win'},
   cycle_apps:{label:'Cycle apps (Cmd+Tab)',tag:'Apps'},
-  app_layer:{label:'App-switcher layer (hold)',tag:'Apps\u25B8'},
-  enter_app_layer:{label:'Enter (tap) / app switcher (hold)',tag:'Enter\u00B7Apps'},
-  scroll_layer:{label:'Scroll layer \u2014 hold (D-pad \u2191\u2193 = Page Up/Down)',tag:'Scrl\u25B8'},
-  handsfree_scroll:{label:'Hands-free (tap) / scroll layer (hold)',tag:'Hands\u00B7Scrl'}
+  app_layer:{label:'Cmd layer \u2014 hold (D-pad: \u21C4 apps \u00B7 \u2191\u2193 scroll)',tag:'Apps\u25B8'},
+  enter_app_layer:{label:'Enter (tap) / Cmd layer (hold: \u21C4 apps \u00B7 \u2191\u2193 scroll)',tag:'Enter\u00B7Apps'}
 };
 const LAYER_FNS=['app_layer','enter_app_layer'];
-const HANDSFREE_FNS=['handsfree','handsfree_scroll'];   // both emit Fn+Space on tap; layer overlays Cmd+Enter onto whichever button holds one
-const SCROLL_LAYER_FNS=['scroll_layer','handsfree_scroll'];
-const DEFAULTS={e:'up',f:'down',d:'left',c:'right',i:'cycle_apps',j:'ptt',h:'cycle_win',g:'launch_term',k:'handsfree_scroll',m:'enter_app_layer'};
+const DEFAULTS={e:'up',f:'down',d:'left',c:'right',i:'cycle_apps',j:'ptt',h:'cycle_win',g:'launch_term',k:'handsfree',m:'enter_app_layer'};
 
 const state={vendor:'11720',product:'36888',terminal:'Terminal',launchCmd:'',map:Object.assign({},DEFAULTS)};
 
@@ -280,21 +276,17 @@ function buildConfig(){
   if(layerKey){
     const rightKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='right');
     const leftKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='left');
-    if(rightKey)manips.push({type:'basic',from:fromKey(rightKey),to:[{key_code:'tab'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
-    if(leftKey)manips.push({type:'basic',from:fromKey(leftKey),to:[{key_code:'tab',modifiers:['left_shift']}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
-    // Layer also holds Cmd lazily, so the hands-free trigger becomes Cmd+Enter (send) while held —
-    // gated manipulator pushed before the plain hands-free one below, so it wins (first-match) when the layer is active.
-    const hfKey=BUTTONS.map(b=>b.id).find(id=>HANDSFREE_FNS.includes(state.map[id]));
-    if(hfKey)manips.push({type:'basic',from:fromKey(hfKey),to:[{key_code:'return_or_enter'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
-  }
-  // Scroll layer (independent of the Cmd layer, no modifier held): while its button is held,
-  // the D-pad up/down buttons send Page Up/Down. Gated overlays pushed before the plain arrows below.
-  const scrollKey=BUTTONS.map(b=>b.id).find(id=>SCROLL_LAYER_FNS.includes(state.map[id]));
-  if(scrollKey){
     const upKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='up');
     const downKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='down');
-    if(upKey)manips.push({type:'basic',from:fromKey(upKey),to:[{key_code:'page_up'}],conditions:[{type:'variable_if',name:'zero2_scroll',value:1},dev]});
-    if(downKey)manips.push({type:'basic',from:fromKey(downKey),to:[{key_code:'page_down'}],conditions:[{type:'variable_if',name:'zero2_scroll',value:1},dev]});
+    if(rightKey)manips.push({type:'basic',from:fromKey(rightKey),to:[{key_code:'tab'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    if(leftKey)manips.push({type:'basic',from:fromKey(leftKey),to:[{key_code:'tab',modifiers:['left_shift']}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    // The layer holds Cmd lazily, so it rides along on every in-layer key: up/down send Page Up/Down →
+    // ⌘PageUp/⌘PageDown, which scrolls the terminal; the hands-free button → Cmd+Enter (send).
+    // All gated before the plain arrows / hands-free below, so they win first-match while the layer is active.
+    if(upKey)manips.push({type:'basic',from:fromKey(upKey),to:[{key_code:'page_up'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    if(downKey)manips.push({type:'basic',from:fromKey(downKey),to:[{key_code:'page_down'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
+    const hfKey=BUTTONS.map(b=>b.id).find(id=>state.map[id]==='handsfree');
+    if(hfKey)manips.push({type:'basic',from:fromKey(hfKey),to:[{key_code:'return_or_enter'}],conditions:[{type:'variable_if',name:'zero2_app_switcher',value:1},dev]});
   }
   for(const b of BUTTONS){
     const fn=state.map[b.id];
@@ -305,15 +297,6 @@ function buildConfig(){
         to_after_key_up:[{set_variable:{name:'zero2_app_switcher',value:0}}],
         conditions:[dev]};
       if(fn==='enter_app_layer')manip.to_if_alone=[{key_code:'return_or_enter'}];
-      manips.push(manip);
-      continue;
-    }
-    if(SCROLL_LAYER_FNS.includes(fn)){
-      const manip={type:'basic',from:fromKey(b.id),
-        to:[{set_variable:{name:'zero2_scroll',value:1}}],
-        to_after_key_up:[{set_variable:{name:'zero2_scroll',value:0}}],
-        conditions:[dev]};
-      if(fn==='handsfree_scroll')manip.to_if_alone=[{key_code:'spacebar',modifiers:['fn']}];
       manips.push(manip);
       continue;
     }
@@ -333,13 +316,11 @@ function updateDiagram(){
 function updateWarn(){
   const counts={};
   for(const b of BUTTONS){const f=state.map[b.id];if(f==='none')continue;counts[f]=(counts[f]||0)+1;}
-  const dupes=Object.keys(counts).filter(f=>counts[f]>1&&!LAYER_FNS.includes(f)&&!SCROLL_LAYER_FNS.includes(f)).map(f=>FUNCS[f].tag);
+  const dupes=Object.keys(counts).filter(f=>counts[f]>1&&!LAYER_FNS.includes(f)).map(f=>FUNCS[f].tag);
   const layers=BUTTONS.filter(b=>LAYER_FNS.includes(state.map[b.id])).length;
-  const scrolls=BUTTONS.filter(b=>SCROLL_LAYER_FNS.includes(state.map[b.id])).length;
   let msg='';
   if(dupes.length)msg='Assigned more than once: '+dupes.join(', ');
   if(layers>1)msg=(msg?msg+' · ':'')+'Only one app-switcher layer is supported';
-  if(scrolls>1)msg=(msg?msg+' · ':'')+'Only one scroll layer is supported';
   document.getElementById('warn').textContent=msg;
 }
 function updateImport(){
